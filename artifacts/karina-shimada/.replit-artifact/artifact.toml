@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Homenagem à Karina Shimada"
+version = "1.0.0"
+id = "artifacts/karina-shimada"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20883
+
+[services.development]
+run = "pnpm --filter @workspace/karina-shimada run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/karina-shimada", "run", "build" ]
+publicDir = "artifacts/karina-shimada/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20883"
+BASE_PATH = "/"

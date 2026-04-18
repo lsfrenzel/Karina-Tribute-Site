@@ -1,0 +1,5 @@
+{
+  "buildCommand": "pnpm --filter @workspace/karina-shimada run build",
+  "outputDirectory": "artifacts/karina-shimada/dist/public",
+  "framework": null
+}

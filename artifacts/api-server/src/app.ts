@@ -7,18 +7,26 @@ import { logger } from "./lib/logger";
 
 const app: Express = express();
 
+type PinoHttpFactory = (opts: {
+  logger: typeof logger;
+  serializers?: {
+    req?: (req: IncomingMessage & { id?: unknown }) => object;
+    res?: (res: ServerResponse) => object;
+  };
+}) => express.RequestHandler;
+
 app.use(
-  pinoHttp({
+  (pinoHttp as unknown as PinoHttpFactory)({
     logger,
     serializers: {
-      req(req: IncomingMessage & { id?: unknown }) {
+      req(req) {
         return {
           id: req.id,
           method: req.method,
           url: req.url?.split("?")[0],
         };
       },
-      res(res: ServerResponse) {
+      res(res) {
         return {
           statusCode: res.statusCode,
         };
